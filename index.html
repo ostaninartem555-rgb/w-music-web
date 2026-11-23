@@ -18,6 +18,8 @@
       --muted: #8e8ea0;
       --accent: #7c5cff;
       --accent-glow: rgba(124, 92, 255, 0.35);
+      --sc: #ff5500;
+      --yt: #ff0033;
       --danger: #ff4d6d;
     }
 
@@ -28,7 +30,7 @@
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
-      padding-bottom: 130px;
+      padding-bottom: 145px;
       overflow-x: hidden;
     }
 
@@ -36,7 +38,7 @@
       position: sticky;
       top: 0;
       z-index: 20;
-      background: rgba(9, 9, 13, 0.85);
+      background: rgba(9, 9, 13, 0.88);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       padding: calc(14px + env(safe-area-inset-top)) 16px 14px;
@@ -44,13 +46,12 @@
     }
 
     .top-bar {
-      max-width: 720px;
-      margin: 0 auto;
+      max-width: 740px;
+      margin: 0 auto 12px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 12px;
+      gap: 10px;
     }
 
     .brand {
@@ -76,7 +77,7 @@
 
     .tabs {
       display: flex;
-      gap: 8px;
+      gap: 6px;
     }
 
     .tab-btn {
@@ -97,8 +98,8 @@
     }
 
     .search-box {
-      max-width: 720px;
-      margin: 0 auto;
+      max-width: 740px;
+      margin: 0 auto 10px;
       display: flex;
       gap: 8px;
     }
@@ -108,7 +109,7 @@
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 14px;
-      padding: 12px 16px;
+      padding: 11px 15px;
       color: var(--text);
       font-size: 15px;
       outline: none;
@@ -127,25 +128,69 @@
       cursor: pointer;
     }
 
-    main {
-      max-width: 720px;
+    .source-filters {
+      max-width: 740px;
       margin: 0 auto;
-      padding: 16px;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
     }
 
-    .status-text {
+    .filter-chip {
+      background: var(--surface);
+      border: 1px solid var(--border);
       color: var(--muted);
-      font-size: 13px;
+      padding: 5px 11px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .filter-chip.active {
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.28);
+      background: var(--surface-2);
+    }
+
+    .dot-sc { width: 7px; height: 7px; border-radius: 50%; background: var(--sc); }
+    .dot-yt { width: 7px; height: 7px; border-radius: 50%; background: var(--yt); }
+
+    main {
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 14px 16px;
+    }
+
+    .status-bar {
+      color: var(--muted);
+      font-size: 12.5px;
       margin-bottom: 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 8px;
+    }
+
+    .error-banner {
+      display: none;
+      background: rgba(255, 77, 109, 0.14);
+      border: 1px solid rgba(255, 77, 109, 0.35);
+      color: #ffb3c1;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 13px;
+      margin-bottom: 12px;
     }
 
     .track-list {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 9px;
     }
 
     .track-item {
@@ -157,19 +202,18 @@
       border: 1px solid var(--border);
       border-radius: 16px;
       cursor: pointer;
-      transition: background 0.15s ease;
+      transition: background 0.15s ease, border-color 0.15s ease;
     }
 
-    .track-item:active { transform: scale(0.99); }
     .track-item.playing {
       border-color: var(--accent);
-      background: rgba(124, 92, 255, 0.12);
+      background: rgba(124, 92, 255, 0.13);
     }
 
     .track-cover {
-      width: 48px;
-      height: 48px;
-      border-radius: 10px;
+      width: 52px;
+      height: 52px;
+      border-radius: 11px;
       background: var(--surface-2);
       object-fit: cover;
       flex-shrink: 0;
@@ -201,10 +245,55 @@
       margin-top: 2px;
     }
 
-    .track-duration {
-      font-size: 12px;
+    .track-stats {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      margin-top: 5px;
+    }
+
+    .stat-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      color: #d4d4df;
+    }
+
+    .stat-badge.sc {
+      background: rgba(255, 85, 0, 0.14);
+      color: #ff9466;
+      border: 1px solid rgba(255, 85, 0, 0.25);
+    }
+
+    .stat-badge.yt {
+      background: rgba(255, 0, 51, 0.14);
+      color: #ff7a93;
+      border: 1px solid rgba(255, 0, 51, 0.25);
+    }
+
+    .stat-fresh {
+      font-size: 11px;
       color: var(--muted);
-      margin-right: 4px;
+    }
+
+    .track-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+
+    .track-duration {
+      font-size: 11.5px;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
     }
 
     .fav-btn {
@@ -212,7 +301,7 @@
       border: none;
       font-size: 18px;
       color: var(--muted);
-      padding: 6px;
+      padding: 4px;
       cursor: pointer;
     }
     .fav-btn.active { color: var(--danger); }
@@ -224,7 +313,7 @@
       right: 0;
       bottom: 0;
       z-index: 30;
-      background: rgba(19, 19, 27, 0.94);
+      background: rgba(19, 19, 27, 0.96);
       backdrop-filter: blur(24px);
       -webkit-backdrop-filter: blur(24px);
       border-top: 1px solid var(--border);
@@ -232,7 +321,7 @@
     }
 
     .player-inner {
-      max-width: 720px;
+      max-width: 740px;
       margin: 0 auto;
     }
 
@@ -262,8 +351,8 @@
 
     input[type="range"]::-webkit-slider-thumb {
       -webkit-appearance: none;
-      width: 13px;
-      height: 13px;
+      width: 14px;
+      height: 14px;
       border-radius: 50%;
       background: #fff;
       cursor: pointer;
@@ -273,7 +362,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
+      gap: 10px;
     }
 
     .now-playing {
@@ -285,8 +374,8 @@
     }
 
     .now-cover {
-      width: 42px;
-      height: 42px;
+      width: 44px;
+      height: 44px;
       border-radius: 10px;
       background: var(--surface-2);
       object-fit: cover;
@@ -314,14 +403,14 @@
     .buttons {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
     .ctrl-btn {
       background: none;
       border: none;
       color: var(--text);
-      font-size: 18px;
+      font-size: 17px;
       width: 34px;
       height: 34px;
       border-radius: 50%;
@@ -332,8 +421,8 @@
     .ctrl-btn.active { color: var(--accent); }
 
     .play-btn {
-      width: 44px;
-      height: 44px;
+      width: 46px;
+      height: 46px;
       border-radius: 50%;
       background: var(--accent);
       color: #fff;
@@ -347,19 +436,21 @@
 
     .empty-state {
       text-align: center;
-      padding: 48px 16px;
+      padding: 44px 16px;
       color: var(--muted);
-      font-size: 15px;
+      font-size: 14.5px;
     }
 
     .loader {
       display: inline-block;
-      width: 18px;
-      height: 18px;
+      width: 14px;
+      height: 14px;
       border: 2px solid rgba(255,255,255,0.2);
       border-top-color: #fff;
       border-radius: 50%;
       animation: spin 0.7s linear infinite;
+      vertical-align: middle;
+      margin-right: 6px;
     }
 
     @keyframes spin { to { transform: rotate(360deg); } }
@@ -373,21 +464,27 @@
         <span>W music</span>
       </div>
       <div class="tabs">
-        <button class="tab-btn active" id="tabSearch">Поиск</button>
+        <button class="tab-btn active" id="tabSearch">Лента / Поиск</button>
         <button class="tab-btn" id="tabFav">Избранное (<span id="favCount">0</span>)</button>
       </div>
     </div>
     <form class="search-box" id="searchForm">
-      <input type="text" class="search-input" id="searchInput" placeholder="Исполнитель или трек..." autocomplete="off" />
-      <button type="submit" class="search-btn" id="searchBtn">Найти</button>
+      <input type="text" class="search-input" id="searchInput" placeholder="Поиск треков и артистов..." autocomplete="off" />
+      <button type="submit" class="search-btn">Найти</button>
     </form>
+    <div class="source-filters">
+      <button class="filter-chip active" data-source="all">Все площадки</button>
+      <button class="filter-chip" data-source="soundcloud"><span class="dot-sc"></span>SoundCloud</button>
+      <button class="filter-chip" data-source="youtube"><span class="dot-yt"></span>YouTube Music</button>
+    </div>
   </header>
 
   <main>
-    <div class="status-text">
-      <span id="statusLabel">Популярные треки</span>
-      <span id="queueInfo">Автопереключение: ВКЛ</span>
+    <div class="status-bar">
+      <span id="statusLabel">Подборка: популярное + свежее</span>
+      <span>Переключение: после конца трека</span>
     </div>
+    <div class="error-banner" id="errorBanner"></div>
     <div class="track-list" id="trackList"></div>
   </main>
 
@@ -402,16 +499,16 @@
         <div class="now-playing">
           <div class="now-cover" id="nowCover">🎵</div>
           <div class="now-meta">
-            <div class="now-title" id="nowTitle">Выберите трек</div>
-            <div class="now-artist" id="nowArtist">W music</div>
+            <div class="now-title" id="nowTitle">Нажмите на любой трек</div>
+            <div class="now-artist" id="nowArtist">W music • Звук готов</div>
           </div>
         </div>
         <div class="buttons">
           <button class="ctrl-btn" id="shuffleBtn" title="Перемешать">🔀</button>
-          <button class="ctrl-btn" id="prevBtn" title="Назад">⏮</button>
+          <button class="ctrl-btn" id="prevBtn" title="Предыдущий">⏮</button>
           <button class="play-btn" id="playBtn" title="Пуск / Пауза">▶</button>
-          <button class="ctrl-btn" id="nextBtn" title="Вперёд">⏭</button>
-          <button class="ctrl-btn" id="repeatBtn" title="Повтор">🔁</button>
+          <button class="ctrl-btn" id="nextBtn" title="Следующий">⏭</button>
+          <button class="ctrl-btn active" id="repeatBtn" title="Повтор">🔁</button>
         </div>
       </div>
     </div>
@@ -420,7 +517,6 @@
   <audio id="audio" preload="auto" playsinline></audio>
 
   <script>
-    // Сервер по умолчанию для всех пользователей
     const SERVER_URL = "https://barrel-default-signatures-ict.trycloudflare.com";
 
     const audio = document.getElementById("audio");
@@ -428,6 +524,7 @@
     const searchForm = document.getElementById("searchForm");
     const searchInput = document.getElementById("searchInput");
     const statusLabel = document.getElementById("statusLabel");
+    const errorBanner = document.getElementById("errorBanner");
     const playBtn = document.getElementById("playBtn");
     const prevBtn = document.getElementById("prevBtn");
     const nextBtn = document.getElementById("nextBtn");
@@ -444,12 +541,23 @@
     const favCountEl = document.getElementById("favCount");
 
     let queue = [];
-    let searchResults = [];
+    let allTracks = [];
     let favorites = JSON.parse(localStorage.getItem("wmusic_favs") || "[]");
     let currentIndex = -1;
     let currentTab = "search";
+    let sourceFilter = "all";
     let isShuffle = false;
     let repeatMode = "all"; // "all" | "one" | "none"
+    let playRequestId = 0; // Защита от наложения и гонок запросов
+
+    function showError(msg) {
+      if (!msg) {
+        errorBanner.style.display = "none";
+        return;
+      }
+      errorBanner.textContent = msg;
+      errorBanner.style.display = "block";
+    }
 
     function updateFavCount() {
       favCountEl.textContent = favorites.length;
@@ -463,49 +571,157 @@
       return `${m}:${s < 10 ? "0" : ""}${s}`;
     }
 
-    function normalizeTrack(raw) {
-      const id = raw.id || raw.trackId || raw.url || raw.streamUrl || Math.random().toString(36).slice(2);
-      const title = raw.title || raw.name || "Без названия";
-      const artist = raw.artist || raw.author || (raw.user && raw.user.username) || "Неизвестный исполнитель";
-      const artwork = raw.artwork || raw.cover || raw.thumbnail || raw.image || "";
-      let streamUrl = raw.streamUrl || raw.audioUrl || raw.url || "";
-      if (streamUrl && streamUrl.startsWith("/")) {
-        streamUrl = SERVER_URL + streamUrl;
-      } else if (!streamUrl && raw.id) {
-        streamUrl = `${SERVER_URL}/api/stream/${encodeURIComponent(raw.id)}`;
-      }
-      const duration = raw.duration ? (raw.duration > 10000 ? raw.duration / 1000 : raw.duration) : 0;
-      return { id: String(id), title, artist, artwork, streamUrl, duration };
+    function formatPlays(num) {
+      const n = Number(num);
+      if (!n || isNaN(n) || n <= 0) return "н/д";
+      if (n >= 1_000_000) return (n / 1_000_000).toFixed(1).replace(/\.0$/, "") + " млн";
+      if (n >= 1_000) return (n / 1_000).toFixed(1).replace(/\.0$/, "") + " тыс.";
+      return n.toLocaleString("ru-RU");
     }
 
-    async function searchTracks(query) {
-      statusLabel.innerHTML = `<span class="loader"></span> Ищем «${query}»...`;
-      try {
-        const endpoints = [
-          `${SERVER_URL}/api/search?q=${encodeURIComponent(query)}`,
-          `${SERVER_URL}/search?q=${encodeURIComponent(query)}`
-        ];
-        let data = null;
-        for (const url of endpoints) {
-          try {
-            const res = await fetch(url);
-            if (res.ok) {
-              data = await res.json();
-              break;
-            }
-          } catch (_) {}
-        }
+    function formatFreshness(dateInput) {
+      if (!dateInput) return "";
+      const ts = new Date(dateInput).getTime();
+      if (isNaN(ts)) return "";
+      const days = Math.max(0, Math.floor((Date.now() - ts) / 86400000));
+      if (days === 0) return "сегодня";
+      if (days === 1) return "вчера";
+      if (days < 30) return `${days} дн. назад`;
+      if (days < 365) return `${Math.floor(days / 30)} мес. назад`;
+      return `${Math.floor(days / 365)} г. назад`;
+    }
 
-        const list = Array.isArray(data) ? data : (data?.tracks || data?.results || data?.items || []);
-        searchResults = list.map(normalizeTrack);
-        if (currentTab === "search") {
-          queue = searchResults;
-          statusLabel.textContent = searchResults.length ? `Найдено треков: ${searchResults.length}` : "Ничего не найдено";
-          renderTracks();
-        }
-      } catch (err) {
-        statusLabel.textContent = "Ошибка соединения с сервером";
+    function detectSource(raw) {
+      const s = String(raw.source || raw.platform || raw.provider || raw.url || "").toLowerCase();
+      if (s.includes("youtube") || s.includes("youtu.be") || s.includes("yt")) return "youtube";
+      return "soundcloud";
+    }
+
+    function normalizeTrack(raw) {
+      const id = String(raw.id || raw.trackId || raw.videoId || raw.url || Math.random().toString(36).slice(2));
+      const title = raw.title || raw.name || "Без названия";
+      const artist = raw.artist || raw.author || raw.channelTitle || (raw.user && raw.user.username) || "Неизвестный артист";
+      const artwork = raw.artwork || raw.cover || raw.thumbnail || (raw.user && raw.user.avatar_url) || "";
+      const source = detectSource(raw);
+
+      // Раздельная статистика для SoundCloud и YouTube Music
+      const rawPlays = Number(raw.playback_count || raw.playCount || raw.plays || raw.views || raw.viewCount || 0);
+      const scPlays = Number(raw.scPlays || (source === "soundcloud" ? rawPlays : 0));
+      const ytPlays = Number(raw.ytPlays || (source === "youtube" ? rawPlays : 0));
+
+      const createdAt = raw.created_at || raw.release_date || raw.publishedAt || raw.date || null;
+      const timestamp = createdAt ? new Date(createdAt).getTime() || 0 : 0;
+
+      let streamUrl = raw.streamUrl || raw.audioUrl || "";
+      if (!streamUrl) {
+        streamUrl = `${SERVER_URL}/api/stream/${encodeURIComponent(id)}?source=${source}`;
+      } else if (streamUrl.startsWith("/")) {
+        streamUrl = SERVER_URL + streamUrl;
       }
+
+      const duration = raw.duration ? (raw.duration > 10000 ? raw.duration / 1000 : raw.duration) : 0;
+
+      return {
+        id,
+        title,
+        artist,
+        artwork,
+        source,
+        scPlays,
+        ytPlays,
+        totalPlays: scPlays + ytPlays,
+        createdAt,
+        timestamp,
+        streamUrl,
+        duration
+      };
+    }
+
+    // Ранжирование: баланс популярности и свежести + чередование разных артистов
+    function rankAndDiversify(tracks) {
+      const now = Date.now();
+      const scored = tracks.map(t => {
+        const popularityScore = Math.log10((t.totalPlays || 10) + 10);
+        const ageDays = t.timestamp ? Math.max(1, (now - t.timestamp) / 86400000) : 180;
+        const freshnessScore = 10 / Math.sqrt(ageDays);
+        return { track: t, score: popularityScore * 1.4 + freshnessScore };
+      });
+
+      scored.sort((a, b) => b.score - a.score);
+
+      // Разводим треки одного и того же артиста, чтобы в ленте были разные исполнители
+      const result = [];
+      const pool = scored.map(s => s.track);
+      while (pool.length > 0) {
+        const lastArtist = result.length ? result[result.length - 1].artist.toLowerCase() : "";
+        let pickIdx = pool.findIndex(t => t.artist.toLowerCase() !== lastArtist);
+        if (pickIdx === -1) pickIdx = 0;
+        result.push(pool.splice(pickIdx, 1)[0]);
+      }
+      return result;
+    }
+
+    async function fetchFromServer(query) {
+      const urls = [
+        `${SERVER_URL}/api/search?q=${encodeURIComponent(query)}&limit=25`,
+        `${SERVER_URL}/search?q=${encodeURIComponent(query)}`
+      ];
+      for (const u of urls) {
+        try {
+          const res = await fetch(u);
+          if (res.ok) {
+            const json = await res.json();
+            const arr = Array.isArray(json) ? json : (json.tracks || json.results || json.items || []);
+            if (arr.length) return arr.map(normalizeTrack);
+          }
+        } catch (_) {}
+      }
+      return [];
+    }
+
+    // Загрузка микса разных артистов (популярное + свежее)
+    async function loadFeedOrSearch(customQuery = "") {
+      showError("");
+      if (customQuery) {
+        statusLabel.innerHTML = `<span class="loader"></span>Ищем «${escapeHtml(customQuery)}»...`;
+        const found = await fetchFromServer(customQuery);
+        allTracks = rankAndDiversify(found);
+        statusLabel.textContent = allTracks.length
+          ? `Найдено: ${allTracks.length} (популярность + свежесть)`
+          : "Ничего не найдено";
+      } else {
+        statusLabel.innerHTML = `<span class="loader"></span>Собираем свежие хиты разных артистов...`;
+        const queries = ["2026 hits", "new music", "top tracks", "phonk", "hip hop"];
+        const batches = await Promise.all(queries.map(q => fetchFromServer(q)));
+        const map = new Map();
+        batches.flat().forEach(t => {
+          const key = `${t.artist.toLowerCase()}-${t.title.toLowerCase()}`;
+          if (!map.has(key)) {
+            map.set(key, t);
+          } else {
+            // Если трек есть  и на SoundCloud, и на YouTube — объединяем статистику
+            const existing = map.get(key);
+            existing.scPlays = Math.max(existing.scPlays, t.scPlays);
+            existing.ytPlays = Math.max(existing.ytPlays, t.ytPlays);
+            existing.totalPlays = existing.scPlays + existing.ytPlays;
+          }
+        });
+        allTracks = rankAndDiversify(Array.from(map.values()));
+        statusLabel.textContent = allTracks.length
+          ? `Рекомендации: ${allTracks.length} треков разных артистов`
+          : "Сервер не вернул треки — проверь поиск";
+      }
+      renderTracks();
+    }
+
+    function getFilteredList() {
+      const base = currentTab === "search" ? allTracks : favorites;
+      if (sourceFilter === "all") return base;
+      return base.filter(t => {
+        if (sourceFilter === "soundcloud") return t.source === "soundcloud" || t.scPlays > 0;
+        if (sourceFilter === "youtube") return t.source === "youtube" || t.ytPlays > 0;
+        return true;
+      });
     }
 
     function isFavorite(id) {
@@ -521,25 +737,44 @@
       }
       localStorage.setItem("wmusic_favs", JSON.stringify(favorites));
       updateFavCount();
-      if (currentTab === "fav") {
-        queue = favorites;
-      }
       renderTracks();
     }
 
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, m => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      }[m]));
+    }
+
     function renderTracks() {
-      const list = currentTab === "search" ? searchResults : favorites;
+      const list = getFilteredList();
       if (!list.length) {
         trackListEl.innerHTML = `<div class="empty-state">${
-          currentTab === "search" ? "Введите название трека или артиста в поиск сверху" : "В избранном пока пусто. Нажмите ♡ рядом с треком"
+          currentTab === "search"
+            ? "По выбранному фильтру треков нет. Введите запрос в поиск сверху."
+            : "В избранном пока пусто. Нажмите ♡ справа от трека."
         }</div>`;
         return;
       }
 
       const activeTrack = queue[currentIndex];
       trackListEl.innerHTML = "";
+
       list.forEach((track, idx) => {
         const isPlaying = activeTrack && activeTrack.id === track.id;
+        const freshText = formatFreshness(track.createdAt);
+
+        let statsHtml = "";
+        if (track.scPlays > 0 || track.source === "soundcloud") {
+          statsHtml += `<span class="stat-badge sc">☁ SoundCloud: ${formatPlays(track.scPlays)}</span>`;
+        }
+        if (track.ytPlays > 0 || track.source === "youtube") {
+          statsHtml += `<span class="stat-badge yt">▶ YouTube Music: ${formatPlays(track.ytPlays)}</span>`;
+        }
+        if (freshText) {
+          statsHtml += `<span class="stat-fresh">• ${freshText}</span>`;
+        }
+
         const item = document.createElement("div");
         item.className = "track-item" + (isPlaying ? " playing" : "");
         item.innerHTML = `
@@ -549,62 +784,88 @@
           <div class="track-info">
             <div class="track-title">${escapeHtml(track.title)}</div>
             <div class="track-artist">${escapeHtml(track.artist)}</div>
+            <div class="track-stats">${statsHtml}</div>
           </div>
-          ${track.duration ? `<span class="track-duration">${formatTime(track.duration)}</span>` : ""}
-          <button class="fav-btn ${isFavorite(track.id) ? "active" : ""}" title="В избранное">
-            ${isFavorite(track.id) ? "♥" : "♡"}
-          </button>
+          <div class="track-right">
+            <button class="fav-btn ${isFavorite(track.id) ? "active" : ""}" title="В избранное">
+              ${isFavorite(track.id) ? "♥" : "♡"}
+            </button>
+            ${track.duration ? `<span class="track-duration">${formatTime(track.duration)}</span>` : ""}
+          </div>
         `;
+
         item.querySelector(".fav-btn").addEventListener("click", (e) => toggleFavorite(track, e));
         item.addEventListener("click", () => {
           queue = [...list];
           playTrackAt(idx);
         });
+
         trackListEl.appendChild(item);
       });
     }
 
-    function escapeHtml(str) {
-      return String(str).replace(/[&<>"']/g, m => ({
-        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
-      }[m]));
+    async function resolveAudioUrl(streamUrl) {
+      try {
+        const probe = await fetch(streamUrl, { method: "GET" });
+        const contentType = probe.headers.get("content-type") || "";
+        if (contentType.includes("application/json")) {
+          const data = await probe.json();
+          return data.url || data.streamUrl || data.audioUrl || streamUrl;
+        }
+        return probe.url || streamUrl;
+      } catch (_) {
+        return streamUrl;
+      }
     }
 
     async function playTrackAt(index) {
       if (index < 0 || index >= queue.length) return;
+      const reqId = ++playRequestId;
       currentIndex = index;
       const track = queue[currentIndex];
 
+      showError("");
       nowTitle.textContent = track.title;
-      nowArtist.textContent = track.artist;
+      nowArtist.textContent = `${track.artist} • Загрузка звука...`;
       nowCover.innerHTML = track.artwork
         ? `<img src="${track.artwork}" style="width:100%;height:100%;border-radius:10px;object-fit:cover;" />`
         : "🎵";
-
       renderTracks();
-      updateMediaSession(track);
+
+      audio.pause();
+      audio.removeAttribute("src");
+      audio.load();
+
+      const playableUrl = await resolveAudioUrl(track.streamUrl);
+      if (reqId !== playRequestId) return;
+
+      audio.src = playableUrl;
+      audio.volume = 1.0;
 
       try {
-        let src = track.streamUrl;
-        // Если сервер отдает JSON с прямой ссылкой вместо аудиопотока
-        if (src.includes("/api/stream/") || src.includes("/stream")) {
-          audio.src = src;
-        } else {
-          audio.src = src;
-        }
         await audio.play();
+        if (reqId !== playRequestId) return;
         playBtn.textContent = "⏸";
+        const platformName = track.source === "youtube" ? "YouTube Music" : "SoundCloud";
+        nowArtist.textContent = `${track.artist} • ${platformName}`;
+        updateMediaSession(track);
       } catch (err) {
-        console.warn("Playback error, skipping...", err);
-        setTimeout(() => playNext(true), 800);
+        if (reqId !== playRequestId) return;
+        playBtn.textContent = "▶";
+        nowArtist.textContent = track.artist;
+        if (err.name === "NotAllowedError") {
+          showError("Нажмите кнопку ▶ на плеере внизу, чтобы браузер разрешил воспроизведение звука.");
+        } else {
+          showError(`Не удалось загрузить аудиопоток для «${track.title}». Попробуйте другой трек или нажмите ⏭.`);
+        }
       }
     }
 
-    function playNext(auto = false) {
+    function playNext(fromEndedEvent = false) {
       if (!queue.length) return;
-      if (auto && repeatMode === "one") {
+      if (fromEndedEvent && repeatMode === "one") {
         audio.currentTime = 0;
-        audio.play();
+        audio.play().catch(() => {});
         return;
       }
       if (isShuffle && queue.length > 1) {
@@ -617,7 +878,7 @@
       }
       if (currentIndex + 1 < queue.length) {
         playTrackAt(currentIndex + 1);
-      } else if (repeatMode === "all" || !auto) {
+      } else if (repeatMode === "all" || !fromEndedEvent) {
         playTrackAt(0);
       } else {
         playBtn.textContent = "▶";
@@ -649,11 +910,14 @@
       }
     }
 
-    // Автопереключение при окончании трека
-    audio.addEventListener("ended", () => playNext(true));
+    audio.addEventListener("ended", () => {
+      if (audio.duration && audio.duration > 1) {
+        playNext(true);
+      }
+    });
 
     audio.addEventListener("timeupdate", () => {
-      if (audio.duration) {
+      if (audio.duration && !isNaN(audio.duration)) {
         seekBar.value = (audio.currentTime / audio.duration) * 100;
         curTimeEl.textContent = formatTime(audio.currentTime);
         durTimeEl.textContent = formatTime(audio.duration);
@@ -661,19 +925,28 @@
     });
 
     seekBar.addEventListener("input", () => {
-      if (audio.duration) {
+      if (audio.duration && !isNaN(audio.duration)) {
         audio.currentTime = (seekBar.value / 100) * audio.duration;
       }
     });
 
-    playBtn.addEventListener("click", () => {
-      if (!audio.src && queue.length) {
-        playTrackAt(0);
+    playBtn.addEventListener("click", async () => {
+      if (!audio.src) {
+        const list = getFilteredList();
+        if (list.length) {
+          queue = [...list];
+          playTrackAt(0);
+        }
         return;
       }
       if (audio.paused) {
-        audio.play();
-        playBtn.textContent = "⏸";
+        try {
+          await audio.play();
+          playBtn.textContent = "⏸";
+          showError("");
+        } catch (e) {
+          showError("Браузер заблокировал звук — проверьте громкость или выберите другой трек.");
+        }
       } else {
         audio.pause();
         playBtn.textContent = "▶";
@@ -703,23 +976,29 @@
         repeatBtn.classList.add("active");
       }
     });
-    repeatBtn.classList.add("active");
+
+    document.querySelectorAll(".filter-chip").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".filter-chip").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        sourceFilter = btn.dataset.source;
+        renderTracks();
+      });
+    });
 
     searchForm.addEventListener("submit", (e) => {
       e.preventDefault();
       const q = searchInput.value.trim();
-      if (!q) return;
       currentTab = "search";
       tabSearch.classList.add("active");
       tabFav.classList.remove("active");
-      searchTracks(q);
+      loadFeedOrSearch(q);
     });
 
     tabSearch.addEventListener("click", () => {
       currentTab = "search";
       tabSearch.classList.add("active");
       tabFav.classList.remove("active");
-      statusLabel.textContent = searchResults.length ? `Найдено треков: ${searchResults.length}` : "Поиск музыки";
       renderTracks();
     });
 
@@ -727,12 +1006,11 @@
       currentTab = "fav";
       tabFav.classList.add("active");
       tabSearch.classList.remove("active");
-      statusLabel.textContent = `Избранные треки: ${favorites.length}`;
+      statusLabel.textContent = `Избранное: ${favorites.length} треков`;
       renderTracks();
     });
 
-    // Стартовый поиск при открытии
-    searchTracks("Phonk");
+    loadFeedOrSearch("");
   </script>
 </body>
 </html>
